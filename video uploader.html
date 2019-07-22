@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Video Uploader</title>
+	<style type="text/css">
+		*{
+			padding: 0px;
+			margin: 0px;
+			box-sizing: border-box;
+		}
+		body{
+			text-align: center;
+			font-size: 16px;
+			padding: 20px;
+		}
+		h2{
+			margin-bottom: 20px;
+		}
+		.instruction{
+			margin-bottom: 15px;
+		}
+		label.inputLabel input[type="file"] {
+		    position:absolute;
+		    top: -1000px;
+		}
+		.placeholder{
+			width: 30%;
+			padding: 5px;
+			margin: 20px auto;
+			min-height: 200px;
+			text-align: center;
+			line-height: 190px;
+			border: 1px solid grey;
+		}
+		input{
+			background-color: transparent;
+		}
+		video{
+			max-height: 100%;
+			margin: auto;
+		}
+		button, .inputLabel{
+			background-color: transparent;
+			padding: 5px;
+			font-size: 16px;
+			margin: 15px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			box-shadow: 2px 1px #bbb;
+		}
+		button:active, .inputLabel:active{
+			box-shadow: 0px 0px white;
+		}
+	</style>
+</head>
+<body onload="loading()">
+	<h2>VIDEO UPLOADER</h2>
+	<div>
+		<p class="instruction">Please select a video to upload</p>
+	</div>
+	<label class="inputLabel">
+		<input type="file" name="video" accept="video/mp4" id="fileInput" onchange="checkFile(event)">
+		<span>Upload Video</span>
+	</label>
+	<div class="placeholder">
+		<p id="toggle">Your video will appear here</p>
+
+		<video id="video-element" height=200px controls>
+			<source type="video/mp4">
+		</video>
+	</div>
+
+
+<div></div>
+<button onclick="playVideo()">Play</button>
+<button onclick="thumbnail()">Upload  Thumbnail</button>
+<input type="file" name="thumbnail" id="thumbnailInput" accept="image" hidden="true" onchange="uploadThumbnail(event)">
+<script type="text/javascript">
+	function loading(){
+		document.getElementById('toggle').style.display="block";
+		document.getElementById('video-element').style.display="none";
+		document.getElementById('fileInput').value="";
+	}
+	function checkFile(event) {
+		var file = document.getElementById('fileInput');
+		if (file) {
+			document.getElementById('toggle').style.display = "none";
+			var output = document.getElementById('video-element');
+			output.src = URL.createObjectURL(event.target.files[0]);
+			output.style.display="block";
+		}
+		else{
+			alert("There was some error. Please refresh the page and try again");
+		}
+	}
+	function thumbnail(){
+		document.getElementById('thumbnailInput').click();
+	}
+	function uploadThumbnail(event) {
+		var video = document.getElementById('video-element');
+		video.poster = "";
+		video.pause();
+		video.currentTime = 0;
+		if (document.getElementById('thumbnailInput')) {
+			video.poster = URL.createObjectURL(event.target.files[0]);
+			video.load();
+		}
+	}
+	function playVideo(){
+		document.getElementById('video-element').play();
+	}
+</script>
+</body>
+</html>
